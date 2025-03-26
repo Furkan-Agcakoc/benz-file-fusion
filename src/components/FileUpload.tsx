@@ -7,12 +7,14 @@ import { handleSubmit } from '@/utils/api';
 import FileDropZone from './FileDropZone';
 import UserGuide from './UserGuide';
 import Filter from './Filter';
+import { Progress } from '@/components/ui/progress';
 
 const FileUpload: React.FC = () => {
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [selectedSACodes, setSelectedSACodes] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const handleExcelDrop = (file: File) => {
     setExcelFile(file);
@@ -43,22 +45,41 @@ const FileUpload: React.FC = () => {
     }
 
     setIsSubmitting(true);
+    setProgress(0);
+    
+    // Start the progress simulation
+    const progressInterval = setInterval(() => {
+      setProgress(prev => {
+        // Increment progress but cap at 90% until download is complete
+        const newProgress = prev + Math.random() * 10;
+        return newProgress < 90 ? newProgress : 90;
+      });
+    }, 300);
+    
     try {
       toast.promise(
         handleSubmit(excelFile, jsonFile, selectedSACodes),
         {
           loading: 'Fahrzeugliste wird erstellt...',
           success: () => {
+            // Complete the progress bar when download is ready
+            clearInterval(progressInterval);
+            setProgress(100);
+            setTimeout(() => {
+              setIsSubmitting(false);
+              setProgress(0);
+            }, 1000);
             return 'Fahrzeugliste wurde erfolgreich heruntergeladen!';
           },
           error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.',
         }
       );
     } catch (error) {
+      clearInterval(progressInterval);
       console.error("Error submitting files:", error);
       toast.error("Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.");
-    } finally {
       setIsSubmitting(false);
+      setProgress(0);
     }
   };
 
@@ -106,18 +127,54 @@ const FileUpload: React.FC = () => {
       />
 
       <div className="text-center mt-12 mb-6 animate-slide-in">
+        {isSubmitting && (
+          <div className="mb-6 animate-fade-in">
+            <div className="mb-2 flex justify-between items-center">
+              <span className="text-sm text-gray-500">Verarbeitung läuft...</span>
+              <span className="text-sm text-gray-500">{Math.round(progress)}%</span>
+            </div>
+            <Progress value={progress} className="h-2 w-full mb-4" />
+          </div>
+        )}
+        
         <Button
           onClick={handleFormSubmit}
           disabled={isSubmitting || !excelFile || !jsonFile}
           className={`bg-mercedes-darkblue hover:bg-mercedes-blue text-white py-3 px-8 rounded-md transition-all duration-300 text-lg flex items-center justify-center space-x-2 mx-auto ${
-            (!excelFile || !jsonFile) ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-mercedes-hover'
+            (!excelFile || !jsonFile || isSubmitting) ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-mercedes-hover'
           }`}
         >
-          <Download className="h-5 w-5 mr-2" />
-          Fahrzeugliste herunterladen
+          {isSubmitting ? (
+            <>
+              <span className="animate-spin mr-2">
+                <svg className="h-5 w-5" viewBox="0 0 24 24">
+                  <circle 
+                    className="opacity-25" 
+                    cx="12" 
+                    cy="12" 
+                    r="10" 
+                    stroke="currentColor" 
+                    strokeWidth="4"
+                    fill="none"
+                  />
+                  <path 
+                    className="opacity-75" 
+                    fill="currentColor" 
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+              </span>
+              Bitte warten...
+            </>
+          ) : (
+            <>
+              <Download className="h-5 w-5 mr-2" />
+              Fahrzeugliste herunterladen
+            </>
+          )}
         </Button>
         
-        {(!excelFile || !jsonFile) && (
+        {(!excelFile || !jsonFile) && !isSubmitting && (
           <p className="text-gray-500 text-sm mt-2 animate-fade-in">
             Bitte laden Sie beide Dateien hoch, um fortzufahren
           </p>

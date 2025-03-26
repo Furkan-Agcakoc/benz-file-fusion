@@ -76,8 +76,8 @@ export const handleSubmit = async (
     // window.URL.revokeObjectURL(url);
     // a.remove();
 
-    // Simulate a delay for demonstration purposes
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    // Simulate a longer delay for demonstration purposes
+    await new Promise(resolve => setTimeout(resolve, 5000));
     
     // For demo purposes, create and trigger a fake download
     const a = document.createElement('a');
