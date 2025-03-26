@@ -1,0 +1,60 @@
+# Grundlegende Projektabhängigkeiten
+npm install @hookform/resolvers
+npm install @radix-ui/react-accordion
+npm install @radix-ui/react-alert-dialog
+npm install @radix-ui/react-aspect-ratio
+npm install @radix-ui/react-avatar
+npm install @radix-ui/react-checkbox
+npm install @radix-ui/react-collapsible
+npm install @radix-ui/react-context-menu
+npm install @radix-ui/react-dialog
+npm install @radix-ui/react-dropdown-menu
+npm install @radix-ui/react-hover-card
+npm install @radix-ui/react-label
+npm install @radix-ui/react-menubar
+npm install @radix-ui/react-navigation-menu
+npm install @radix-ui/react-popover
+npm install @radix-ui/react-progress
+npm install @radix-ui/react-radio-group
+npm install @radix-ui/react-scroll-area
+npm install @radix-ui/react-select
+npm install @radix-ui/react-separator
+npm install @radix-ui/react-slider
+npm install @radix-ui/react-slot
+npm install @radix-ui/react-switch
+npm install @radix-ui/react-tabs
+npm install @radix-ui/react-toast
+npm install @radix-ui/react-toggle
+npm install @radix-ui/react-toggle-group
+npm install @radix-ui/react-tooltip
+
+# React und Zusätzliche Bibliotheken
+npm install react@latest
+npm install react-dom@latest
+npm install react-hook-form
+npm install react-router-dom
+npm install sonner
+npm install tailwind-merge
+npm install tailwindcss-animate
+npm install zod
+
+# UI und Styling Bibliotheken
+npm install class-variance-authority
+npm install clsx
+npm install lucide-react
+npm install next-themes
+
+# Utility und Datenmanagement
+npm install @tanstack/react-query
+npm install date-fns
+npm install cmdk
+npm install input-otp
+npm install embla-carousel-react
+npm install recharts
+npm install vaul
+
+
+npm install @hookform/resolvers @radix-ui/react-accordion ... lucide-react next-themes
+
+npm install --legacy-peer-deps
+
