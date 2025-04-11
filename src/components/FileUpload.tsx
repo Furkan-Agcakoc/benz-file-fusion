@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Download, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -100,6 +99,18 @@ const FileUpload: React.FC = () => {
 
       <UserGuide />
 
+      <div className="flex flex-row items-center gap-4 mb-8">
+        <Filter
+          selectedSACodes={selectedSACodes}
+          setSelectedSACodes={setSelectedSACodes}
+        />
+        
+        <VehicleTypeFilter
+          selectedVehicleTypes={selectedVehicleTypes}
+          setSelectedVehicleTypes={setSelectedVehicleTypes}
+        />
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <FileDropZone
           onFileDrop={handleExcelDrop}
@@ -117,18 +128,6 @@ const FileUpload: React.FC = () => {
           onRemove={removeJsonFile}
           label="slots.json Datei hochladen"
           icon="json"
-        />
-      </div>
-
-      <div className="flex flex-col items-start gap-2 mb-8">
-        <Filter
-          selectedSACodes={selectedSACodes}
-          setSelectedSACodes={setSelectedSACodes}
-        />
-        
-        <VehicleTypeFilter
-          selectedVehicleTypes={selectedVehicleTypes}
-          setSelectedVehicleTypes={setSelectedVehicleTypes}
         />
       </div>
 
