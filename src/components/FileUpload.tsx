@@ -7,12 +7,14 @@ import { handleSubmit } from '@/utils/api';
 import FileDropZone from './FileDropZone';
 import UserGuide from './UserGuide';
 import Filter from './Filter';
+import VehicleTypeFilter from './VehicleTypeFilter';
 import { Progress } from '@/components/ui/progress';
 
 const FileUpload: React.FC = () => {
   const [excelFile, setExcelFile] = useState<File | null>(null);
   const [jsonFile, setJsonFile] = useState<File | null>(null);
   const [selectedSACodes, setSelectedSACodes] = useState<string[]>([]);
+  const [selectedVehicleTypes, setSelectedVehicleTypes] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [progress, setProgress] = useState(0);
 
@@ -58,7 +60,7 @@ const FileUpload: React.FC = () => {
     
     try {
       toast.promise(
-        handleSubmit(excelFile, jsonFile, selectedSACodes),
+        handleSubmit(excelFile, jsonFile, selectedSACodes, selectedVehicleTypes),
         {
           loading: 'Fahrzeugliste wird erstellt...',
           success: () => {
@@ -95,7 +97,7 @@ const FileUpload: React.FC = () => {
         </div>
         <h1 className="text-4xl font-light text-mercedes-darkblue mb-4">Mercedes-Benz Fahrzeugliste</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Erstellen Sie effizient Ihre Fahrzeugliste durch das Hochladen der erforderlichen Dateien und die Auswahl der gewünschten SA-Codes.
+          Erstellen Sie effizient Ihre Fahrzeugliste durch das Hochladen der erforderlichen Dateien und die Auswahl der gewünschten SA-Codes und Fahrzeugtypen.
         </p>
       </div>
 
@@ -121,10 +123,17 @@ const FileUpload: React.FC = () => {
         />
       </div>
 
-      <Filter
-        selectedSACodes={selectedSACodes}
-        setSelectedSACodes={setSelectedSACodes}
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <Filter
+          selectedSACodes={selectedSACodes}
+          setSelectedSACodes={setSelectedSACodes}
+        />
+        
+        <VehicleTypeFilter
+          selectedVehicleTypes={selectedVehicleTypes}
+          setSelectedVehicleTypes={setSelectedVehicleTypes}
+        />
+      </div>
 
       <div className="text-center mt-12 mb-6 animate-slide-in">
         {isSubmitting && (

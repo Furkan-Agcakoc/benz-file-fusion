@@ -31,17 +31,49 @@ export const addSACode = async (code: string): Promise<{ sa_codes: string[] } | 
   }
 };
 
+// Fetch vehicle types from the server
+export const fetchVehicleTypes = async (): Promise<string[]> => {
+  try {
+    const response = await fetch('http://localhost:5000/api/vehicle-types');
+    const data = await response.json();
+    return data.vehicle_types;
+  } catch (error) {
+    console.error("Error fetching vehicle types:", error);
+    return [];
+  }
+};
+
+// Add a new vehicle type
+export const addVehicleType = async (type: string): Promise<{ vehicle_types: string[] } | null> => {
+  try {
+    const response = await fetch('http://localhost:5000/api/vehicle-types', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ type }),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error adding vehicle type:", error);
+    return null;
+  }
+};
+
 // Handle form submission
 export const handleSubmit = async (
   excelFile: File,
   jsonFile: File,
-  selectedSACodes: string[]
+  selectedSACodes: string[],
+  selectedVehicleTypes: string[] = []
 ): Promise<boolean> => {
   try {
     const formData = new FormData();
     formData.append('excelFile', excelFile);
     formData.append('jsonFile', jsonFile);
     formData.append('saCodes', JSON.stringify(selectedSACodes));
+    formData.append('vehicleTypes', JSON.stringify(selectedVehicleTypes));
 
     const response = await fetch('http://localhost:5000/api/generate-vehicle-list', {
       method: 'POST',

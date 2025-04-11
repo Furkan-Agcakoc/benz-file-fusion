@@ -16,6 +16,12 @@ SA_CODES = [
     "P31", "P55", "P64", "P82", "P87"
 ]
 
+# Beispiel Fahrzeugtypen
+VEHICLE_TYPES = [
+    "AED Vans", "AED SI", "AED MCR", 
+    "AMG", "Maybach", "Sprinter"
+]
+
 @app.route('/api/sa-codes', methods=['GET'])
 def get_sa_codes():
     return jsonify({"sa_codes": SA_CODES})
@@ -29,6 +35,20 @@ def add_sa_code():
         SA_CODES.append(code)
     
     return jsonify({"sa_codes": SA_CODES})
+
+@app.route('/api/vehicle-types', methods=['GET'])
+def get_vehicle_types():
+    return jsonify({"vehicle_types": VEHICLE_TYPES})
+
+@app.route('/api/vehicle-types', methods=['POST'])
+def add_vehicle_type():
+    data = request.json
+    vehicle_type = data.get('type')
+    
+    if vehicle_type and vehicle_type not in VEHICLE_TYPES:
+        VEHICLE_TYPES.append(vehicle_type)
+    
+    return jsonify({"vehicle_types": VEHICLE_TYPES})
 
 @app.route('/api/generate-vehicle-list', methods=['POST'])
 def generate_vehicle_list():
