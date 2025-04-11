@@ -80,7 +80,7 @@ const VehicleTypeFilter: React.FC<VehicleTypeFilterProps> = ({ selectedVehicleTy
         className="w-full md:w-auto flex items-center justify-center gap-2 border-mercedes-darkblue text-mercedes-darkblue hover:bg-mercedes-lightsilver"
       >
         <CarFront className="h-4 w-4" />
-        <span>Fahrzeugtypen filtern</span>
+        <span>Slotgruppe filtern</span>
         {selectedVehicleTypes.length > 0 && (
           <span className="ml-2 bg-mercedes-darkblue text-white rounded-full px-2 py-0.5 text-xs">
             {selectedVehicleTypes.length}
@@ -92,7 +92,7 @@ const VehicleTypeFilter: React.FC<VehicleTypeFilterProps> = ({ selectedVehicleTy
         <DialogContent className="max-w-md md:max-w-2xl">
           <DialogHeader>
             <DialogTitle className="text-2xl font-medium text-mercedes-darkblue">
-              Fahrzeugtypen filtern
+              Slotgruppe filtern
             </DialogTitle>
           </DialogHeader>
           
