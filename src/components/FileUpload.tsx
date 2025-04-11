@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Download, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -49,10 +48,8 @@ const FileUpload: React.FC = () => {
     setIsSubmitting(true);
     setProgress(0);
     
-    // Start the progress simulation
     const progressInterval = setInterval(() => {
       setProgress(prev => {
-        // Increment progress but cap at 90% until download is complete
         const newProgress = prev + Math.random() * 10;
         return newProgress < 90 ? newProgress : 90;
       });
@@ -64,7 +61,6 @@ const FileUpload: React.FC = () => {
         {
           loading: 'Fahrzeugliste wird erstellt...',
           success: () => {
-            // Complete the progress bar when download is ready
             clearInterval(progressInterval);
             setProgress(100);
             setTimeout(() => {
@@ -123,7 +119,7 @@ const FileUpload: React.FC = () => {
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <Filter
           selectedSACodes={selectedSACodes}
           setSelectedSACodes={setSelectedSACodes}
@@ -146,42 +142,44 @@ const FileUpload: React.FC = () => {
           </div>
         )}
         
-        <Button
-          onClick={handleFormSubmit}
-          disabled={isSubmitting || !excelFile || !jsonFile}
-          className={`bg-mercedes-darkblue hover:bg-mercedes-blue text-white py-3 px-8 rounded-md transition-all duration-300 text-lg flex items-center justify-center space-x-2 mx-auto ${
-            (!excelFile || !jsonFile || isSubmitting) ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-mercedes-hover'
-          }`}
-        >
-          {isSubmitting ? (
-            <>
-              <span className="animate-spin mr-2">
-                <svg className="h-5 w-5" viewBox="0 0 24 24">
-                  <circle 
-                    className="opacity-25" 
-                    cx="12" 
-                    cy="12" 
-                    r="10" 
-                    stroke="currentColor" 
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <path 
-                    className="opacity-75" 
-                    fill="currentColor" 
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  />
-                </svg>
-              </span>
-              Bitte warten...
-            </>
-          ) : (
-            <>
-              <Download className="h-5 w-5 mr-2" />
-              Fahrzeugliste herunterladen
-            </>
-          )}
-        </Button>
+        <div className="flex justify-center items-center space-x-4">
+          <Button
+            onClick={handleFormSubmit}
+            disabled={isSubmitting || !excelFile || !jsonFile}
+            className={`bg-mercedes-darkblue hover:bg-mercedes-blue text-white py-3 px-8 rounded-md transition-all duration-300 text-lg flex items-center justify-center space-x-2 ${
+              (!excelFile || !jsonFile || isSubmitting) ? 'opacity-70 cursor-not-allowed' : 'hover:shadow-mercedes-hover'
+            }`}
+          >
+            {isSubmitting ? (
+              <>
+                <span className="animate-spin mr-2">
+                  <svg className="h-5 w-5" viewBox="0 0 24 24">
+                    <circle 
+                      className="opacity-25" 
+                      cx="12" 
+                      cy="12" 
+                      r="10" 
+                      stroke="currentColor" 
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path 
+                      className="opacity-75" 
+                      fill="currentColor" 
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
+                  </svg>
+                </span>
+                Bitte warten...
+              </>
+            ) : (
+              <>
+                <Download className="h-5 w-5 mr-2" />
+                Fahrzeugliste herunterladen
+              </>
+            )}
+          </Button>
+        </div>
         
         {(!excelFile || !jsonFile) && !isSubmitting && (
           <p className="text-gray-500 text-sm mt-2 animate-fade-in">
